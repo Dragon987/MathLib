@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/dragomir/dev/MathLib/headers/MathLib.hpp
+iostream
+-
+math.h
+-
+
+/home/dragomir/dev/MathLib/test/test.cpp
+iostream
+-
+./../headers/MathLib.hpp
+/home/dragomir/dev/MathLib/headers/MathLib.hpp
+
