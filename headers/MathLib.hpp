@@ -2,11 +2,13 @@
 
 #include <iostream>
 #include <math.h>
+#include <cstdlib>
+#include <memory.h>
 
-#define PI 3.14159265359
-#define TWO_PI  6.28318530718
-#define HALF_PI 1.57079632679
-#define QUARTER_PI 0.78539816339
+#define PI 3.14159
+#define TWO_PI  6.28318
+#define HALF_PI 1.57079
+#define QUARTER_PI 0.78539
 
 namespace Math
 {
@@ -27,11 +29,14 @@ namespace Math
 
     float Dist(float x1, float y1, float x2, float y2);
     void Dist(float *result, float x1, float y1, float x2, float y2);
+
+    float Lerp(float val, float goal, float amt);
     
     class Vector2 {
     private:
 
     private:
+        float components[2];
 
     public:
         float x, y;
@@ -39,69 +44,71 @@ namespace Math
     public:
         Vector2(); // 0, 0
         Vector2(float x, float y);
+        inline Vector2(const Vector2 &other) { memcpy(this, (void *)&other, sizeof(Vector2)); };
  
         inline ~Vector2() {};
+        
 
         static Vector2 Random();
         static Vector2 FromAngle(float angleRad);
         void Set(float x, float y);
+        void Set(const Vector2 &other);
 
         float Mag();
         float MagSq();
-        void Mag(float &result); 
-        void MagSq(float &result);
+
+        static float Mag(const Vector2 &vec);
+        static float MagSq(const Vector2 &vec);
+        
         void SetMag(float mag);
+        static void SetMag(Vector2 &vec, float mag);
 
-        Vector2 operator+(const Vector2 &other);
-        Vector2 operator-(const Vector2 &other);
-        Vector2 operator*(const float &scalar);
-        Vector2 operator*(float scalar);
+        void Limit(float max);
+        static void Limit(Vector2 &vec, float max);
 
+        friend Vector2 operator+(const Vector2 &first, const Vector2 &second);
+        friend void operator+=(Vector2 &first, const Vector2 &second);
+        friend Vector2 operator-(const Vector2 &first, const Vector2 &second);
+        friend void operator-=(Vector2 &first, const Vector2 &second);
+        friend Vector2 operator*(const Vector2 &vec, float scalar);
+        friend void operator*=(Vector2 &vec, float scalar);
+        friend Vector2 operator/(const Vector2 &vec, float scalar);
+        friend void operator/=(Vector2 &vec, float scalar);
         friend std::ostream& operator<<(std::ostream &stream, const Vector2 &vec2);
 
-        static float Dist(const Vector2 &first, const Vector2 &second);
-        static void Dist(const Vector2 &first, const Vector2 &second, float &result);
-
         float Dist(const Vector2 &other);
-        void Dist(const Vector2 &first, float &result);
+        static float Dist(const Vector2 &first, const Vector2 &second);
 
-        static Vector2 Dot(const Vector2& first, const Vector2& second);        
-        static void Dot(Vector2 &result, const Vector2& first, const Vector2& second);
-
-        Vector2 Dot(const Vector2& other);        
-        void Dot(Vector2 &result, const Vector2& other);
-
-        static Vector2 Cross(const Vector2& first, const Vector2& second);        
-        static void Cross(Vector2 &result, const Vector2& first, const Vector2& second);
-
-        Vector2 Cross(const Vector2& other);        
-        void Cross(Vector2 &result, const Vector2& other);
+        float Dot(const Vector2& other);
+        static float Dot(const Vector2& first, const Vector2& second);
 
         static void Normalize(Vector2 &vec);
         void Normalize();
 
-        static void Limit(Vector2 &vec);
-        void Limit();
-
-        static float Heading(Vector2 &vec);
         float Heading();
+        static float Heading(Vector2 &vec);
 
-        static void Rotate(Vector2 &vec, float angleRad);
         void Rotate(float angleRad);
+        static void Rotate(Vector2 &vec, float angleRad);
 
-        static void Lerp(Vector2 &result, const Vector2& first, const Vector2& second);
-        static Vector2 Lerp(const Vector2& first, const Vector2& second);
+        Vector2 Lerp(const Vector2& other, float amt);
+        static Vector2 Lerp(const Vector2& first, const Vector2& second, float amt);
 
-        void Lerp(Vector2 &result, const Vector2& other);
-        Vector2 Lerp(const Vector2& other);
+        inline float AngleBetween(Vector2& other) { return acosf(Dot(*this, other) / 
+                                                                        (this->Mag() * other.Mag())); };
+        inline static float AngleBetween(Vector2& first, Vector2& second) { return acosf(Dot(first, second) / 
+                                                                        (first.Mag() * second.Mag())); };
 
-        static float AngleBetween(const Vector2& first, const Vector2& second);
-        float AngleBetween(const Vector2& other);
-
-        static float * Array(const Vector2& vec);
         float * Array();
     };
 
     std::ostream& operator<<(std::ostream &stream, const Vector2 &vec2);
+    Vector2 operator+(const Vector2 &first, const Vector2 &second);
+    void operator+=(Vector2 &first, const Vector2 &second);
+    Vector2 operator-(const Vector2 &first, const Vector2 &second);
+    void operator-=(Vector2 &first, const Vector2 &second);
+    Vector2 operator*(const Vector2 &vec, float scalar);
+    void operator*=(Vector2 &vec, float scalar);
+    Vector2 operator/(const Vector2 &vec, float scalar);
 
 } // namespace Math

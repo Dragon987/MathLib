@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/test.dir/test/test.cpp.o  -o test libMath.a 
+/usr/bin/c++  -g   CMakeFiles/test.dir/test/test.cpp.o  -o test libMath.a 

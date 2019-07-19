@@ -11,6 +11,10 @@ iostream
 -
 math.h
 -
+cstdlib
+-
+memory.h
+-
 
 /home/dragomir/dev/MathLib/source/MathLib.cpp
 time.h
